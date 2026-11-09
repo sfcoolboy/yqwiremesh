@@ -1,8 +1,11 @@
 package com.yqmetals.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.yqmetals.common.enums.NewsCategory;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,13 +17,17 @@ public class News {
     private String summary;
     private String content;
     private String coverImageUrl;
-    private NewsCategory category;
+    private String category;
+    private String source;
     private Integer viewCount;
-    @TableField(fill = FieldTime.ADD)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime publishDate;
-    @TableField(fill = FieldTime.ADD)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @TableField(fill = FieldTime.UPDATE)
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
     private Boolean deleted;
 }
+
+
+

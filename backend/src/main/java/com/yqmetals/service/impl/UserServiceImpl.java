@@ -29,19 +29,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public List<User> findAllActive() {
         return list(new LambdaQueryWrapper<User>()
-                .eq(User::getActive, true)
-                .eq(User::getDeleted, false));
+                .eq(User::getDeleted, false)
+                .orderByAsc(User::getId));
     }
 
     @Override
-    public User register(String username, String password, String displayName, String role) {
+    public User register(String username, String password, String displayName, String employeeNumber,
+                         String workEmail, String role, Boolean active) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setDisplayName(displayName);
+        user.setEmployeeNumber(employeeNumber);
+        user.setWorkEmail(workEmail);
         user.setRole(UserRole.valueOf(role));
-        user.setActive(true);
+        user.setActive(active == null || active);
         save(user);
         return user;
+    }
+
+    @Override
+    public void deletePhysically(Long id) {
+        baseMapper.releaseInquiries(id);
+        baseMapper.deletePhysically(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        updateById(user);
+    }
+
+    @Override
+    public void resetPassword(Long id, String newPassword) {
+        User user = new User();
+        user.setId(id);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        updateById(user);
     }
 }

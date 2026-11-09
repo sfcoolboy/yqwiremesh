@@ -3,36 +3,37 @@
     <div class="login-box">
       <div class="login-header">
         <span class="logo-mark">YQ</span>
-        <h1>Admin Portal</h1>
-        <p>Anping YQ Metals Int&apos;l Co., Ltd.</p>
+        <h1>管理后台</h1>
+        <p>Anping Yuanquan Metals Int&apos;l Co., Ltd.</p>
       </div>
       <form @submit.prevent="login">
         <div class="field">
-          <label>Username</label>
-          <input v-model="username" type="text" required autofocus />
+          <label>用户名</label>
+          <input v-model="username" type="text" required autofocus placeholder="请输入用户名" />
         </div>
         <div class="field">
-          <label>Password</label>
-          <input v-model="password" type="password" required />
+          <label>密码</label>
+          <input v-model="password" type="password" required placeholder="请输入密码" />
         </div>
-        <button type="submit" class="btn-login" :disabled="loading">{{ loading ? 'Signing in...' : 'Sign In' }}</button>
+        <button type="submit" class="btn-login" :disabled="loading">{{ loading ? '登录中...' : '登录' }}</button>
         <p v-if="error" class="error">{{ error }}</p>
       </form>
-      <RouterLink to="/" class="back-link">← Back to website</RouterLink>
+      <RouterLink to="/" class="back-link">返回官网</RouterLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api, setToken } from '../../api'
 
 const router = useRouter()
+const route = useRoute()
 const username = ref('')
 const password = ref('')
 const loading = ref(false)
-const error = ref('')
+const error = ref(route.query.expired ? '登录状态已失效，请重新登录' : '')
 
 async function login() {
   loading.value = true
@@ -44,7 +45,7 @@ async function login() {
     localStorage.setItem('yqmetals_role', res.user.role)
     router.push('/admin/dashboard')
   } catch (e: any) {
-    error.value = e.message === 'HTTP 401' ? 'Invalid username or password.' : 'Login failed. Please try again.'
+    error.value = e.message === 'HTTP 401' ? '用户名或密码错误' : '登录失败，请重试'
   } finally {
     loading.value = false
   }

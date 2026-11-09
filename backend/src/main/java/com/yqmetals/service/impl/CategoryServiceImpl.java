@@ -14,16 +14,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public List<Category> findTree() {
-        List<Category> roots = list(new LambdaQueryWrapper<Category>()
-                .eq(Category::getParentId, null)
+        return list(new LambdaQueryWrapper<Category>()
+                .isNull(Category::getParentId)
+                .eq(Category::getType, "PRODUCT")
                 .eq(Category::getDeleted, false)
                 .orderByAsc(Category::getSort));
-        roots.forEach(r -> r.setChildren(
-                list(new LambdaQueryWrapper<Category>()
-                        .eq(Category::getParentId, r.getId())
-                        .eq(Category::getDeleted, false)
-                        .orderByAsc(Category::getSort))));
-        return roots;
+    }
+
+    @Override
+    public List<Category> findByType(String type) {
+        return list(new LambdaQueryWrapper<Category>()
+                .eq(Category::getType, type)
+                .eq(Category::getDeleted, false)
+                .orderByAsc(Category::getSort));
     }
 
     @Override

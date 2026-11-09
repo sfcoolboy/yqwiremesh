@@ -2,21 +2,21 @@ spring:
   application:
     name: yqmetals-backend
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:yqmetals}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8mb4
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:}
+    # 生产环境必须通过环境变量注入，application.yml 中不允许出现明文凭据。
+    # 本地开发可在项目根目录创建 .env（已进 .gitignore）或手动在此填写。
+    url: ${YQ_DB_URL:jdbc:mysql://localhost:3306/yqmetals?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
+    username: ${YQ_DB_USERNAME:root}
+    password: ${YQ_DB_PASSWORD}
+    require_secure_transport: false
     driver-class-name: com.mysql.cj.jdbc.Driver
-  mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enabled: true
+  # SMTP 参数已由管理后台"邮件通知"页面持久化到 sys_setting 表（mail.smtp.* / mail.recipient）。
+  # 此处保留 spring-boot-starter-mail 所需的骨架，但实际值不被使用，请勿在此编辑。
+  mail: {}
+  servlet:
+    multipart:
+      # Let the upload controller return the 5MB business error message.
+      max-file-size: 5MB
+      max-request-size: 12MB
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -27,10 +27,16 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
-  port: ${PORT:8080}
+  port: 8082
 app:
+  base-url: ${BASE_URL:https://www.yqwiremesh.com}
   jwt:
-    secret: ${JWT_SECRET:change-this-to-a-long-random-string-in-production}
-    expiration-ms: ${JWT_EXPIRATION:86400000}
+    # 开发期必须手动设 YQ_JWT_SECRET；生产环境不设置则启动失败（fail-fast），避免使用空密钥上线。
+    secret: ${YQ_JWT_SECRET}
+    expiration-ms: 86400000
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:3000
+  upload:
+    dir: ${YQ_UPLOAD_DIR:./uploads}

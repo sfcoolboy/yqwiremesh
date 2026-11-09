@@ -1,0 +1,107 @@
+# Anping Yuanquan Metals Int'l Co., Ltd. (YQ Metals)
+
+> **Manufacturer and exporter** of steel grating and galvanized steel wire.
+> Founded 2005. Based in Anping County, Hebei Province — the historic centre
+> of China's wire mesh industry. Exporting to 50+ countries.
+
+Last updated: 2026-11-07
+Sitemap: https://www.yqmetals.com/sitemap.xml
+Machine-readable endpoints: https://www.yqmetals.com/api/llms.txt, https://www.yqmetals.com/api/sitemap.xml, https://www.yqmetals.com/api/settings/public
+
+## Company profile
+
+- **Legal name**: Anping Yuanquan Metals Int'l Co., Ltd.
+- **Trade name**: YQ Metals
+- **Founded**: 2005
+- **Address**: No. 229, Chengnan Industrial Park, Anping County, Hebei, China
+- **Facility**: 20,000 m² production area
+- **Markets**: Southeast Asia · Europe
+- **Email**: sales@yqwiremesh.com
+- **Phone**: 
+
+## Products
+
+| Product | Category | Key specifications |
+| --- | --- | --- |
+| 2.5 × 50kg | Galvanized Steel Wire | length 1200mm, width 800mm, height 25mm |
+| 产品333 | Galvanized Steel Wire |  |
+| chanpin222 | Galvanized Steel Wire | 高 12, 宽 800, 长 2000 |
+
+## Standards referenced
+
+| Product | Standard | What it controls |
+| --- | --- | --- |
+| Steel Grating | ASTM A36 | Carbon structural steel for load bars and frames |
+| Steel Grating | ASTM A123 | Hot-dip galvanizing of iron and steel products |
+| Steel Grating | BS 4592 | Industrial type flooring and stair treads |
+| Steel Grating | AS 1657 | Fixed platforms, walkways, stairways and ladders |
+| Galvanized Wire | ASTM A153 | Zinc coating on iron and steel hardware |
+| Galvanized Wire | ASTM A641 | Galvanized carbon steel wire |
+
+## Manufacturing capabilities
+
+- CNC cutting and shearing
+- Automated resistance welding
+- Hot-dip galvanizing kettle line
+- In-house quality control and inspection
+- Custom fabrication from drawings or samples
+- Typical lead time: 15–25 days after drawing confirmation
+
+## Quality and certifications
+
+- ISO-certified quality management system
+- Dimensional checks, weld strength tests, coating thickness measurement and visual inspection on every batch
+- Test reports available on request
+
+## Comparisons
+
+### Steel grating vs. checker plate
+
+| Feature | Steel grating | Checker plate |
+| --- | --- | --- |
+| Open area | 40–70%, passes light, air and drainage | Solid, no open area |
+| Weight per m² | Lower for similar span | Higher |
+| Slip resistance | Serrated or knurled bearing bars available | Pattern-embossed surface |
+| Cleaning | Debris falls through | Requires sweeping or washing |
+| Typical use | Walkways, platforms, trench covers, stair treads | Flooring, truck beds, toolboxes |
+
+### Hot-dip galvanized wire vs. electro galvanized wire
+
+| Property | Hot-dip galvanized | Electro galvanized |
+| --- | --- | --- |
+| Coating thickness | Thicker, typically 50–300 g/m² | Thin, typically 5–30 g/m² |
+| Corrosion resistance | Suitable for outdoor and marine exposure | Indoor or short-term use |
+| Appearance | Bright or dull grey, sometimes slightly rough | Smooth, bright and uniform |
+| Coating adhesion | Metallurgical bond, survives bending | Mechanical bond, flakes under heavy deformation |
+| Cost | Higher | Lower |
+
+## Project references
+
+Detailed project cases are maintained in our internal order system and are not published online. Representative project types include industrial plant flooring, offshore platform walkways, power station trench covers, highway drainage grates, construction binding wire and fencing mesh. Project name, location, quantity and year can be provided on request.
+
+## Frequently asked questions
+
+**Where is your factory located?**
+No. 229, Chengnan Industrial Park, Anping County, Hebei, China.
+
+**What products do you manufacture?**
+Steel grating and galvanized steel wire for industrial and construction use.
+
+**How do we control quality?**
+Every batch is inspected for dimensions, weld strength, coating thickness and appearance before shipment.
+
+**Can you support custom specifications?**
+Yes. Send your drawing or target specifications and we will confirm size, material, finish and packing.
+
+## Contact
+
+- Email: sales@yqwiremesh.com
+- Address: No. 229, Chengnan Industrial Park, Anping County, Hebei, China
+
+## Site pages
+
+- Home: https://www.yqmetals.com/
+- Products: https://www.yqmetals.com/products
+- Factory: https://www.yqmetals.com/factory
+- News: https://www.yqmetals.com/news
+- About and inquiry: https://www.yqmetals.com/about

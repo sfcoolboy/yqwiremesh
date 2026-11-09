@@ -21,6 +21,11 @@ public class CategoryController {
         return categoryService.findTree();
     }
 
+    @GetMapping("/list/{type}")
+    public List<Category> listByType(@PathVariable String type) {
+        return categoryService.findByType(type);
+    }
+
     @GetMapping("/{parentId}/children")
     public List<Category> children(@PathVariable Long parentId) {
         return categoryService.findByParentId(parentId);

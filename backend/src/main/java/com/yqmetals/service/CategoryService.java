@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface CategoryService extends IService<Category> {
     List<Category> findTree();
+    List<Category> findByType(String type);
     List<Category> findByParentId(Long parentId);
 }

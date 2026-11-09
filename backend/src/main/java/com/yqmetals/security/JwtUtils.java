@@ -20,7 +20,7 @@ public class JwtUtils {
     private long expirationMs;
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
+        return Keys.hmacShaKeyFor(Base64.getUrlDecoder().decode(secret));
     }
 
     public String generateToken(String username, String role) {

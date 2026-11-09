@@ -10,4 +10,6 @@ public interface InquiryService extends IService<Inquiry> {
     List<Inquiry> findAllActive();
     void assign(Long inquiryId, Long assigneeId);
     Map<String, Object> getMonthlyStats();
+    Map<String, Object> getMonthlyDailyStats(Integer year, Integer month);
+    List<Integer> getAvailableYears();
 }

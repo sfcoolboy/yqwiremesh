@@ -1,0 +1,48 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Allow: /api/sitemap.xml
+Allow: /api/llms.txt
+Allow: /api/settings/public
+Disallow: /api/admin/
+Disallow: /uploads/
+
+Sitemap: https://www.yqmetals.com/sitemap.xml
+
+# AI crawlers
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /uploads/

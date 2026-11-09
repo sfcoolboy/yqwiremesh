@@ -3,16 +3,20 @@
     <aside class="sidebar">
       <div class="sidebar-logo">YQ Admin</div>
       <nav class="sidebar-nav">
-        <RouterLink to="/admin/dashboard" class="nav-item" :class="{ active: $route.path === '/admin/dashboard' }">Dashboard</RouterLink>
-        <RouterLink to="/admin/inquiries" class="nav-item" :class="{ active: $route.path.startsWith('/admin/inquiries') }">Inquiries</RouterLink>
-        <RouterLink v-if="isAdmin" to="/admin/categories" class="nav-item" :class="{ active: $route.path.startsWith('/admin/categories') }">Categories</RouterLink>
-        <RouterLink v-if="isAdmin" to="/admin/products" class="nav-item" :class="{ active: $route.path.startsWith('/admin/products') }">Products</RouterLink>
-        <RouterLink v-if="isAdmin" to="/admin/news" class="nav-item" :class="{ active: $route.path.startsWith('/admin/news') }">News</RouterLink>
-        <RouterLink v-if="isAdmin" to="/admin/users" class="nav-item" :class="{ active: $route.path.startsWith('/admin/users') }">Users</RouterLink>
+        <RouterLink to="/admin/dashboard" class="nav-item" :class="{ active: $route.path === '/admin/dashboard' }">数据看板</RouterLink>
+        <RouterLink to="/admin/inquiries" class="nav-item" :class="{ active: $route.path.startsWith('/admin/inquiries') }">询盘管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/categories" class="nav-item" :class="{ active: $route.path.startsWith('/admin/categories') }">类目管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/products" class="nav-item" :class="{ active: $route.path.startsWith('/admin/products') }">产品管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/news" class="nav-item" :class="{ active: $route.path.startsWith('/admin/news') }">新闻管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/image-manager" class="nav-item" :class="{ active: $route.path.startsWith('/admin/image-manager') }">图片管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/users" class="nav-item" :class="{ active: $route.path.startsWith('/admin/users') }">用户管理</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/settings" class="nav-item" :class="{ active: $route.path.startsWith('/admin/settings') }">系统设置</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/email-settings" class="nav-item" :class="{ active: $route.path.startsWith('/admin/email-settings') }">邮件通知</RouterLink>
+        <RouterLink v-if="isAdmin" to="/admin/audit-logs" class="nav-item" :class="{ active: $route.path.startsWith('/admin/audit-logs') }">系统日志</RouterLink>
       </nav>
       <div class="sidebar-footer">
-        <span>{{ user?.displayName }} ({{ user?.role }})</span>
-        <button @click="logout" class="logout-btn">Logout</button>
+        <span>{{ user?.displayName }} ({{ roleLabel }})</span>
+        <button @click="logout" class="logout-btn">退出登录</button>
       </div>
     </aside>
     <main class="main-content">
@@ -30,6 +34,7 @@ const router = useRouter()
 const token = getToken()
 const isAdmin = computed(() => !token || localStorage.getItem('yqmetals_role') === 'ADMIN')
 const user = computed(() => JSON.parse(localStorage.getItem('yqmetals_user') || 'null'))
+const roleLabel = computed(() => (user.value?.role === 'ADMIN' ? '管理员' : user.value?.role === 'SALES' ? '业务员' : ''))
 
 function logout() {
   clearToken()

@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    # 生产环境：没有默认密码，环境变量缺失时启动直接失败（fail-fast）。
+    username: ${YQ_DB_USERNAME}
+    password: ${YQ_DB_PASSWORD}
+
+app:
+  base-url: ${BASE_URL:https://www.yqwiremesh.com}
+  cors:
+    # 生产环境只放行已备案的正式域名，禁止任何 localhost / IP 回源。
+    allowed-origins:
+      - https://www.yqwiremesh.com
+      - https://yqwiremesh.com
+  upload:
+    dir: ${YQ_UPLOAD_DIR:/var/lib/yqmetals/uploads}
+
+logging:
+  level:
+    com.yqmetals: info
+  file:
+    name: /var/log/yqmetals/yqmetals-prod.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never

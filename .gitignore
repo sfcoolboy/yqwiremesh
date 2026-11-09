@@ -1,0 +1,67 @@
+### Java / Spring Boot ###
+*.class
+*.jar
+*.war
+*.ear
+/BOOT-INF/
+/META-INF/
+/org/
+**/target/
+**/BOOT-INF/
+
+### Maven ###
+.mvn-repo/
+.mvn/wrapper/maven-wrapper.jar
+
+### Maven local config (may contain mirror credentials) ###
+backend/maven-settings.xml
+backend/mvn-local.xml
+
+### Node / Vite ###
+node_modules/
+dist/
+dist-*/
+.vite/
+coverage/
+
+### Logs ###
+*.log
+**/logs/
+*.err.log
+*.out.log
+**/*.out
+**/err*.log
+
+### OS / Editor ###
+.DS_Store
+Thumbs.db
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+
+### Temp / scratch files used during development ###
+tmp/
+temp_test/
+**/temp_*
+**/workdir/
+
+### User-uploaded content (not source code) ###
+/uploads/
+
+### Secrets / local env ###
+.env
+.env.*
+!.env.example
+
+### Local ops scripts (machine-specific paths, not source code) ###
+backend/reset-admin-password.ps1
+backend/update.sql
+backend/update_db.py
+backend/update_pwd.sql
+
+### Build diagnostics ###
+*.out
+**/err*.log
+**/*.err.log
