@@ -1,6 +1,6 @@
 -- YQMetals Database Schema
--- Pre-create the database manually (or via your DBA tool):
---   CREATE DATABASE yqmetals CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- Flyway baseline migration (v1.0.0).
+-- Creates the full schema and v1.0 seed data for a fresh database.
 
 CREATE TABLE IF NOT EXISTS sys_user (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS category (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted TINYINT(1) NOT NULL DEFAULT 0,
+  INDEX idx_category_parent (parent_id),
   FOREIGN KEY (parent_id) REFERENCES category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS product (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted TINYINT(1) NOT NULL DEFAULT 0,
+  INDEX idx_product_category_id (category_id),
   FOREIGN KEY (category_id) REFERENCES category(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -52,7 +54,7 @@ CREATE TABLE IF NOT EXISTS news (
   content MEDIUMTEXT,
   cover_image_url VARCHAR(500),
   source VARCHAR(200) NULL COMMENT 'News source, e.g. the customer name or the trade platform that referred the article.',
-  category ENUM('COMPANY_NEWS','INDUSTRY_NEWS','EXHIBITION') NOT NULL DEFAULT 'COMPANY_NEWS',
+  category VARCHAR(100) NOT NULL DEFAULT 'Company News',
   view_count INT NOT NULL DEFAULT 0,
   publish_date DATETIME NOT NULL,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -74,23 +76,25 @@ CREATE TABLE IF NOT EXISTS inquiry (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted TINYINT(1) NOT NULL DEFAULT 0,
+  INDEX idx_inquiry_category_id (category_id),
+  INDEX idx_inquiry_assigned_to (assigned_to),
   FOREIGN KEY (category_id) REFERENCES category(id),
   FOREIGN KEY (assigned_to) REFERENCES sys_user(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS param (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  unit VARCHAR(20),
-  enabled TINYINT(1) NOT NULL DEFAULT 1,
-  assigned_category_ids TEXT,
+  name VARCHAR(100) NOT NULL COMMENT '参数名称',
+  unit VARCHAR(20) DEFAULT NULL COMMENT '单位',
+  enabled TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否启用',
+  assigned_category_ids TEXT COMMENT '已分配的类目ID列表，JSON数组格式',
   create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS factory_image (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  image_url VARCHAR(500) NOT NULL,
+  image_url VARCHAR(500) NOT NULL DEFAULT '',
   caption VARCHAR(200),
   sort INT NOT NULL DEFAULT 0,
   type VARCHAR(50),
@@ -110,7 +114,10 @@ CREATE TABLE IF NOT EXISTS audit_log (
   ip VARCHAR(64),
   user_agent VARCHAR(500),
   success TINYINT(1) NOT NULL DEFAULT 1,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_audit_log_create_time (create_time),
+  INDEX idx_audit_log_username (username),
+  INDEX idx_audit_log_action (action)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS sys_setting (
@@ -138,4 +145,10 @@ INSERT INTO category (id, parent_id, name_en, type, sort) VALUES
 (10, NULL, 'Exhibition', 'NEWS', 3)
 ON DUPLICATE KEY UPDATE name_en=VALUES(name_en), type=VALUES(type), sort=VALUES(sort);
 
---- End of schema.sql
+-- SMTP sender and inquiry recipient. Keep in sync with the production mailbox.
+INSERT INTO sys_setting (setting_key, setting_value) VALUES
+  ('mail.username', 'sales@yqwiremesh.com'),
+  ('mail.recipient', 'sales@yqwiremesh.com')
+ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
+-- End of V1__baseline.sql
+
