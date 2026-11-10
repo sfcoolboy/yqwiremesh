@@ -28,6 +28,7 @@ services:
     # 本地有源码时：docker compose build 从 Dockerfile 构建并打上 image 标签
     # 生产服务器通常只有镜像：docker compose pull 拉取后直接 up，不会触发构建
     image: ${DOCKER_IMAGE:-josephin2026/backend}:${TAG:-latest}
+    pull: always
     build:
       context: .
     container_name: yq_app
