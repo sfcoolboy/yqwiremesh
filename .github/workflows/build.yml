@@ -8,8 +8,8 @@ on:
     branches: [main]
 
 env:
-  # 发布时替换成你的镜像仓库地址，例如 registry.hub.docker.com/yourname/yqmetals-backend
-  DOCKER_IMAGE: yqmetals/backend
+  # 发布时替换成你的镜像仓库地址，例如 registry.hub.docker.com/yourname/josephin2026/backend
+  DOCKER_IMAGE: josephin2026/backend
 
 jobs:
   build:
