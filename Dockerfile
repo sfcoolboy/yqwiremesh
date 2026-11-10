@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jre-alpine
 
-RUN apk add --no-cache nginx
+RUN apk add --no-cache nginx netcat-openbsd
 
 COPY frontend/dist /usr/share/nginx/html
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
@@ -14,12 +14,12 @@ RUN mkdir -p /var/lib/yqmetals/uploads /var/log/yqmetals /app /run/nginx
 # Local build: run `npm run build` and `mvn -B -DskipTests package` first,
 # then `docker build -t yqmetals/backend .`
 
-COPY backend/target/yqmetals-backend-1.0.0.jar /app/yqmetals-backend.jar
+COPY backend/target/yqmetals-backend-*.jar /app/yqmetals-backend.jar
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 VOLUME ["/var/lib/yqmetals/uploads", "/var/log/yqmetals"]
 
-EXPOSE 80 8082
+EXPOSE 80 443 8082
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]

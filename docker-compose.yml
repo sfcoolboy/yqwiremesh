@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: yq_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: yqmetals
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+      - --max-connections=200
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backup:/opt/backup
+    networks:
+      - yq_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    # 本地有源码时：docker compose build 从 Dockerfile 构建并打上 image 标签
+    # 生产服务器通常只有镜像：docker compose pull 拉取后直接 up，不会触发构建
+    image: ${DOCKER_IMAGE:-yqmetals/backend}:${TAG:-latest}
+    build:
+      context: .
+    container_name: yq_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      YQ_DB_URL: jdbc:mysql://db:3306/yqmetals?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+      YQ_DB_USERNAME: ${MYSQL_USER}
+      YQ_DB_PASSWORD: ${MYSQL_PASSWORD}
+      # 必须显式激活 prod profile，否则 Spring 只加载 application.yml，
+      # 生产环境的 CORS、上传目录、日志路径都会回退到开发期默认值。
+      SPRING_PROFILES_ACTIVE: prod
+      YQ_JWT_SECRET: ${YQ_JWT_SECRET}
+      BASE_URL: ${BASE_URL}
+      YQ_UPLOAD_DIR: /var/lib/yqmetals/uploads
+      YQ_JAVA_OPTS: ${YQ_JAVA_OPTS}
+    volumes:
+      - ./uploads:/var/lib/yqmetals/uploads
+      - ./logs:/var/log/yqmetals
+      - ./cert:/etc/nginx/certs:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - yq_net
+
+volumes:
+  db_data:
+
+networks:
+  yq_net:
+    driver: bridge
