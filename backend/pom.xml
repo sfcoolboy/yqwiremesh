@@ -52,7 +52,7 @@
     </dependency>
     <dependency>
       <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
+      <artifactId>flyway-community</artifactId>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
