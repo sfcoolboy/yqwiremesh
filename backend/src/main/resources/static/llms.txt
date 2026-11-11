@@ -5,8 +5,8 @@
 > of China's wire mesh industry. Exporting to 50+ countries.
 
 Last updated: 2026-11-07
-Sitemap: https://www.yqmetals.com/sitemap.xml
-Machine-readable endpoints: https://www.yqmetals.com/api/llms.txt, https://www.yqmetals.com/api/sitemap.xml, https://www.yqmetals.com/api/settings/public
+Sitemap: https://www.yqwiremesh.com/sitemap.xml
+Machine-readable endpoints: https://www.yqwiremesh.com/api/llms.txt, https://www.yqwiremesh.com/api/sitemap.xml, https://www.yqwiremesh.com/api/settings/public
 
 ## Company profile
 
@@ -100,8 +100,8 @@ Yes. Send your drawing or target specifications and we will confirm size, materi
 
 ## Site pages
 
-- Home: https://www.yqmetals.com/
-- Products: https://www.yqmetals.com/products
-- Factory: https://www.yqmetals.com/factory
-- News: https://www.yqmetals.com/news
-- About and inquiry: https://www.yqmetals.com/about
+- Home: https://www.yqwiremesh.com/
+- Products: https://www.yqwiremesh.com/products
+- Factory: https://www.yqwiremesh.com/factory
+- News: https://www.yqwiremesh.com/news
+- About and inquiry: https://www.yqwiremesh.com/about

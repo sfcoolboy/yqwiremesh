@@ -8,7 +8,7 @@ Allow: /api/settings/public
 Disallow: /api/admin/
 Disallow: /uploads/
 
-Sitemap: https://www.yqmetals.com/sitemap.xml
+Sitemap: https://www.yqwiremesh.com/sitemap.xml
 
 # AI crawlers
 User-agent: GPTBot

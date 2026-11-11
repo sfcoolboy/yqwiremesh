@@ -1,6 +1,9 @@
 import type { RouteLocationNormalized } from "vue-router";
 
-const BASE_URL = "https://www.yqmetals.com";
+// 构建期由 .env 里的 VITE_BASE_URL 注入；本地或 CI 未配时回退到正式域名。
+// 运行时 baseUrl() 还会用 window.location.origin 再兜底一次，所以 og:image 等
+// 绝对 URL 始终跟随实际访问域名，不会写成旧域名 yqmetals.com。
+const BASE_URL = import.meta.env.VITE_BASE_URL || "https://www.yqwiremesh.com";
 const HERO_IMAGE = "/uploads/545dd1ab-3e26-4c18-a624-c24002a1bb59.png";
 
 // Approximate coordinates of the factory in Anping County, Hebei.
