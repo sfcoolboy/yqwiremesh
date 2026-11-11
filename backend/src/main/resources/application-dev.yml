@@ -10,13 +10,12 @@ spring:
 app:
   base-url: http://localhost:5173
   jwt:
-    secret: dev-jwt-secret-key-local-testing-only
+    # 必须是合法 Base64（JwtUtils 用 Base64 解码生成签名密钥）
+    secret: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
     expiration-ms: 86400000
   cors:
-    allowed-origins:
-      - http://localhost:5173
-      - http://localhost:3000
-      - http://127.0.0.1:5173
+    # 逗号分隔字符串：SecurityConfig 用 @Value 注入 List
+    allowed-origins: http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173
   upload:
     dir: ./uploads-dev
 logging:
