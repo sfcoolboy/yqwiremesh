@@ -2,21 +2,22 @@ spring:
   application:
     name: yqmetals-backend
   datasource:
-    # 生产环境必须通过环境变量注入，application.yml 中不允许出现明文凭据。
-    # 本地开发可在项目根目录创建 .env（已进 .gitignore）或手动在此填写。
     url: ${YQ_DB_URL:jdbc:mysql://localhost:3306/yqmetals?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8}
     username: ${YQ_DB_USERNAME:root}
     password: ${YQ_DB_PASSWORD}
     require_secure_transport: false
     driver-class-name: com.mysql.cj.jdbc.Driver
-  # SMTP 参数已由管理后台"邮件通知"页面持久化到 sys_setting 表（mail.smtp.* / mail.recipient）。
-  # 此处保留 spring-boot-starter-mail 所需的骨架，但实际值不被使用，请勿在此编辑。
   mail: {}
   servlet:
     multipart:
-      # Let the upload controller return the 5MB business error message.
       max-file-size: 5MB
       max-request-size: 12MB
+  sql:
+    init:
+      mode: never
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -31,7 +32,6 @@ server:
 app:
   base-url: ${BASE_URL:https://www.yqwiremesh.com}
   jwt:
-    # 开发期必须手动设 YQ_JWT_SECRET；生产环境不设置则启动失败（fail-fast），避免使用空密钥上线。
     secret: ${YQ_JWT_SECRET}
     expiration-ms: 86400000
   cors:

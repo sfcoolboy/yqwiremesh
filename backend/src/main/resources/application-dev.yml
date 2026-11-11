@@ -1,18 +1,24 @@
 spring:
   datasource:
-    # 开发环境允许本地默认账号，降低上手门槛。
     username: ${YQ_DB_USERNAME:root}
     password: ${YQ_DB_PASSWORD:Root@123456}
-
+    url: jdbc:mysql://localhost:3306/yqmetals?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
 app:
+  base-url: http://localhost:5173
+  jwt:
+    secret: dev-jwt-secret-key-local-testing-only
+    expiration-ms: 86400000
   cors:
     allowed-origins:
       - http://localhost:5173
       - http://localhost:3000
       - http://127.0.0.1:5173
-
+  upload:
+    dir: ./uploads-dev
 logging:
   level:
     com.yqmetals: debug
-  file:
-    name: logs/yqmetals-dev.log
