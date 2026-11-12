@@ -247,7 +247,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { api } from '../../api'
+import { api, IMAGE_SIZE_LIMIT_MESSAGE, MAX_IMAGE_UPLOAD_SIZE } from '../../api'
 import ConfirmDialog from '../../components/ConfirmDialog.vue'
 
 const tab = ref('factory')
@@ -346,11 +346,10 @@ function closeModal() {
 async function onFileSelect(e: Event) {
   const file = (e.target as HTMLInputElement).files?.[0]
   if (!file) return
-    const maxSize = 5 * 1024 * 1024
-    if (file.size > maxSize) {
-      saveError.value = '图片太大，请控制在5M以内上传'
-      return
-    }
+  if (file.size > MAX_IMAGE_UPLOAD_SIZE) {
+    saveError.value = IMAGE_SIZE_LIMIT_MESSAGE
+    return
+  }
   try {
     const res = await api.upload.image(file)
     form.value.imageUrl = res.url

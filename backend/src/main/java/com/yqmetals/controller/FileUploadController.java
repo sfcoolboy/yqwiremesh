@@ -30,7 +30,7 @@ public class FileUploadController {
     @Value("${app.upload.dir:L:/????/AI??/international trade website/uploads/}")
     private String uploadDir;
 
-    private static final long MAX_FILE_SIZE = 5L * 1024 * 1024;
+    private static final long MAX_FILE_SIZE = 3L * 1024 * 1024;
     private static final int MAX_DIMENSION = 3000;
     private static final int TARGET_MAX_WIDTH = 2400;
     private static final int TARGET_MAX_HEIGHT = 2400;
@@ -47,7 +47,7 @@ public class FileUploadController {
         long size = file.getSize();
         if (size > MAX_FILE_SIZE) {
             return ResponseEntity.badRequest()
-                    .body(Map.of("error", "图片太大，请控制在5M以内上传"));
+                    .body(Map.of("error", "图片太大，请控制在3MB以内上传"));
         }
         try {
             BufferedImage original = ImageIO.read(file.getInputStream());
@@ -59,9 +59,21 @@ public class FileUploadController {
             Path dir = Paths.get(uploadDir);
             Files.createDirectories(dir);
             Path target = dir.resolve(newName);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(processed, ext.equalsIgnoreCase("png") ? "PNG" : "JPEG", baos);
-            byte[] bytes = baos.toByteArray();
+            byte[] bytes = encodeImage(processed, ext);
+            int resizeAttempts = 0;
+            while (bytes.length > MAX_FILE_SIZE && resizeAttempts < 6) {
+                double ratio = Math.min(0.9,
+                        Math.max(0.1, Math.sqrt((double) MAX_FILE_SIZE / bytes.length) * 0.9));
+                int width = Math.max(1, (int) Math.round(processed.getWidth() * ratio));
+                int height = Math.max(1, (int) Math.round(processed.getHeight() * ratio));
+                processed = scale(processed, width, height);
+                bytes = encodeImage(processed, ext);
+                resizeAttempts++;
+            }
+            if (bytes.length > MAX_FILE_SIZE) {
+                return ResponseEntity.status(413)
+                        .body(Map.of("error", "图片压缩后仍超过3MB，请压缩后重试"));
+            }
             Files.write(target, bytes);
             Map<String, String> result = new HashMap<>();
             result.put("url", "/uploads/" + newName);
@@ -76,7 +88,7 @@ public class FileUploadController {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<?> handleMaxUploadSize() {
         return ResponseEntity.status(413)
-                .body(Map.of("error", "图片太大，请控制在5M以内上传"));
+                .body(Map.of("error", "图片太大，请控制在3MB以内上传"));
     }
 
     private BufferedImage compress(BufferedImage src, String ext) throws IOException {
@@ -88,6 +100,15 @@ public class FileUploadController {
             return isJpeg(ext) ? qualityCompress(resized, 0.85f) : resized;
         }
         return isJpeg(ext) ? qualityCompress(src, 0.9f) : src;
+    }
+
+    private byte[] encodeImage(BufferedImage image, String ext) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        String format = ext.equalsIgnoreCase("png") ? "PNG" : "JPEG";
+        if (!ImageIO.write(image, format, baos)) {
+            throw new IOException("Unsupported image format: " + format);
+        }
+        return baos.toByteArray();
     }
 
     private BufferedImage scale(BufferedImage src, int tw, int th) {

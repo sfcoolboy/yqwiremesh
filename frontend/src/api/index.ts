@@ -2,6 +2,8 @@ const BASE = '/api'
 const tokenKey = 'yqmetals_token'
 const userKey = 'yqmetals_user'
 const roleKey = 'yqmetals_role'
+export const MAX_IMAGE_UPLOAD_SIZE = 3 * 1024 * 1024
+export const IMAGE_SIZE_LIMIT_MESSAGE = '图片太大，请控制在3MB以内上传'
 
 export const getToken = (): string | null => localStorage.getItem(tokenKey)
 export const setToken = (token: string): void => localStorage.setItem(tokenKey, token)
@@ -59,8 +61,8 @@ export const api = {
   },
   upload: {
     image: async (file: File): Promise<any> => {
-      if (file.size > 5 * 1024 * 1024) {
-        throw new Error('图片太大，请控制在5M以内上传')
+      if (file.size > MAX_IMAGE_UPLOAD_SIZE) {
+        throw new Error(IMAGE_SIZE_LIMIT_MESSAGE)
       }
       const form = new FormData()
       form.append('file', file)
@@ -84,7 +86,7 @@ export const api = {
           return new Promise<never>(() => {})
         }
         if (response.status === 413) {
-          throw new Error('图片太大，请控制在5M以内上传')
+          throw new Error(IMAGE_SIZE_LIMIT_MESSAGE)
         }
         throw new Error(errorMessage(text, '上传失败 HTTP ' + response.status))
       }

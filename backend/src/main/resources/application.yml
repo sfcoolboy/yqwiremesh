@@ -10,8 +10,8 @@ spring:
   mail: {}
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 12MB
+      max-file-size: 3MB
+      max-request-size: 4MB
   sql:
     init:
       mode: never
